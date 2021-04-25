@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
       include: [
         {
           model: Product,
-          attributes: [ "id", "price", "product_name", "stock", "category_id"],
+          attributes: [ "id", "price", "product_name", "stock", "category_id" ],
         },
       ],
     });
@@ -21,8 +21,28 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find one category by its `id` value
+  try {
+    const oneCategory = await Category.findOne({
+      where: {
+        id: req.params.id,
+      },
+      includes: [
+        {
+          model: Product,
+          attributes: [ "id", "price", "product_name", "stock", "category_id" ],
+        },
+      ],
+    });
+    if (!oneCategory) {
+      res.status(404).json({ message: "No category associated with that id!" });
+      return;
+    }
+    res.status(200).json(oneCategory);
+  } catch (err) {
+    res.json(500).json(err);
+  }
   // be sure to include its associated Products
 });
 
