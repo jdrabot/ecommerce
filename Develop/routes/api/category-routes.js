@@ -40,7 +40,7 @@ router.get('/:id', async (req, res) => {
       return;
     }
     res.status(200).json(oneCategory);
-    
+
   } catch (err) {
     res.json(500).json(err);
   }
@@ -58,6 +58,9 @@ router.post('/', (req, res) => {
       return;
     }
     res.status(200).json(createCategory);
+
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
