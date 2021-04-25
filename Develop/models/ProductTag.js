@@ -4,9 +4,31 @@ const sequelize = require('../config/connection');
 
 class ProductTag extends Model {}
 
+// creates category names for the product tag table
 ProductTag.init(
   {
-    // define columns
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    product_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'product',
+        key: 'id',
+        unique: true
+      }
+    },
+    tag_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'tag',
+        key: 'id',
+        unique: true
+      }
+    }
   },
   {
     sequelize,
